@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASA-NOVA — Registre & Gestion d'Atelier</title>
+    <style>
+        :root {
+            --bg-page: #f2f1ed;          /* Un fond papier chaud et légèrement grisé pour casser le blanc aveuglant */
+            --bg-card: #fdfdfc;          /* Blanc cassé pour les cartes, les faisant ressortir subtilement */
+            --text-main: #1c1c1a;        /* Noir texturé, plus chaleureux qu'un noir pur */
+            --text-muted: #5c5b56;       /* Gris foncé bien lisible et contrasté */
+            --border-color: #d6d4cb;     /* Bordure texturée plus marquée pour structurer sans agresser */
+            --gold: #82632b;             /* Doré ancien plus soutenu et élégant */
+            --shadow-subtle: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Baskerville, "Times New Roman", Georgia, serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* En-tête asymétrique */
+        header {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 80px 24px 60px 24px;
+            border-bottom: 2px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: end;
+            gap: 40px;
+        }
+
+        .brand-block h1 {
+            font-size: 3.2rem;
+            font-weight: normal;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .brand-block h1 span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .brand-block p {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 520px;
+            font-weight: 400; /* Légèrement renforcé pour le confort de lecture */
+        }
+
+        .header-meta {
+            text-align: right;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+        }
+
+        .header-meta strong {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        /* Contenu principal */
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Manifeste */
+        .manifesto {
+            padding: 90px 0;
+            max-width: 780px;
+        }
+
+        .manifesto h2 {
+            font-size: 2.1rem;
+            font-weight: normal;
+            line-height: 1.4;
+            margin-bottom: 25px;
+        }
+
+        .manifesto p {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        /* Grille des modules avec ombres douces et espacement organique */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 100px;
+        }
+
+        .module-item {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: var(--shadow-subtle);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .module-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.09);
+        }
+
+        .module-item .num {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .module-item h3 {
+            font-size: 1.35rem;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .module-item p {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .module-item ul {
+            list-style: none;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-main);
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        .module-item ul li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .module-item ul li::before {
+            content: "—";
+            color: var(--gold);
+        }
+
+        /* Section Workflow */
+        .workflow-section {
+            border-top: 2px solid var(--border-color);
+            padding: 90px 0;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .workflow-section h3 {
+            font-size: 1.8rem;
+            font-weight: normal;
+        }
+
+        .workflow-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step-row {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 24px 30px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .step-num {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.8rem;
+            color: var(--gold);
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            font-weight: normal;
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Pied de page */
+        footer {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            border-top: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        footer .tagline {
+            font-style: italic;
+            font-family: Baskerville, "Times New Roman", Georgia, serif;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            header {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .header-meta {
+                text-align: left;
+            }
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+            .workflow-section {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- En-tête -->
+    <header>
+        <div class="brand-block">
+            <h1>CASA-<span>NOVA</span></h1>
+            <p>Registre interne et outil de gestion sur mesure, pensé pour l'artisanat, la précision et le suivi des ateliers d'art.</p>
+        </div>
+        <div class="header-meta">
+            Édition Atelier
+            <strong>Version de travail — 2026</strong>
+        </div>
+    </header>
+
+    <main>
+        <!-- Manifeste -->
+        <section class="manifesto">
+            <h2>Sortir du chaos des carnets éparpillés et des fichiers numériques multiples.</h2>
+            <p>CASA-NOVA a été conçu pour rassembler l'essentiel au même endroit. Un outil sobre, silencieux et structuré qui s'intègre naturellement dans le rythme quotidien de l'atelier, sans superflus technologiques.</p>
+        </section>
+
+        <!-- Les Modules -->
+        <div class="modules-grid">
+            <div class="module-item">
+                <div>
+                    <span class="num">01 / L'ATELIER</span>
+                    <h3>Suivi des instruments</h3>
+                    <p>Enregistrement des pièces, historique des interventions, notes techniques et traçabilité des travaux confiés à l'équipe.</p>
+                </div>
+                <ul>
+                    <li>Fiches descriptives</li>
+                    <li>Historique des passages</li>
+                    <li>Notes et observations</li>
+                </ul>
+            </div>
+
+            <div class="module-item">
+                <div>
+                    <span class="num">02 / LA COMPTABILITÉ</span>
+                    <h3>Devis & Facturation</h3>
+                    <p>Édition propre des pièces administratives, suivi des règlements et centralisation des documents par client.</p>
+                </div>
+                <ul>
+                    <li>Génération de devis</li>
+                    <li>Factures et archivage</li>
+                    <li>Exportation PDF</li>
+                </ul>
+            </div>
+
+            <div class="module-item">
+                <div>
+                    <span class="num">03 / LA BOUTIQUE</span>
+                    <h3>Ventes & Dépôts</h3>
+                    <p>Gestion transparente des instruments disponibles à la vente, des accessoires et suivi rigoureux des dépôts-ventes.</p>
+                </div>
+                <ul>
+                    <li>Inventaire des stocks</li>
+                    <li>Gestion des dépôts</li>
+                    <li>Suivi des transactions</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section Workflow -->
+        <section class="workflow-section">
+            <div>
+                <h3>Déroulement<br>quotidien</h3>
+            </div>
+            <div class="workflow-steps">
+                <div class="step-row">
+                    <span class="step-num">01</span>
+                    <div class="step-content">
+                        <h4>Réception de l'instrument</h4>
+                        <p>Création rapide de la fiche de l'instrument et association au dossier client existant ou nouveau.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <span class="step-num">02</span>
+                    <div class="step-content">
+                        <h4>Intervention & Suivi</h4>
+                        <p>L'artisan consigne les actions menées, le temps passé et les particularités techniques directement sur le registre.</p>
+                    </div>
+                </div>
+                <div class="step-row">
+                    <span class="step-num">03</span>
+                    <div class="step-content">
+                        <h4>Clôture & Facturation</h4>
+                        <p>Édition de la facture correspondante et archivage automatique dans le dossier historique du client.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="tagline">« L'art de l'organisation au service du geste. »</div>
+        <div>CASA-NOVA &copy; 2026 — Usage interne</div>
+    </footer>
+
+</body>
+</html>
