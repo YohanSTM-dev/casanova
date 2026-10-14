@@ -1,370 +1,360 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASA-NOVA — Registre & Gestion d'Atelier</title>
-    <style>
-        :root {
-            --bg-page: #f2f1ed;          /* Un fond papier chaud et légèrement grisé pour casser le blanc aveuglant */
-            --bg-card: #fdfdfc;          /* Blanc cassé pour les cartes, les faisant ressortir subtilement */
-            --text-main: #1c1c1a;        /* Noir texturé, plus chaleureux qu'un noir pur */
-            --text-muted: #5c5b56;       /* Gris foncé bien lisible et contrasté */
-            --border-color: #d6d4cb;     /* Bordure texturée plus marquée pour structurer sans agresser */
-            --gold: #82632b;             /* Doré ancien plus soutenu et élégant */
-            --shadow-subtle: 0 10px 30px -10px rgba(0, 0, 0, 0.06), 0 1px 3px 0 rgba(0, 0, 0, 0.04);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Baskerville, "Times New Roman", Georgia, serif;
-            background-color: var(--bg-page);
-            color: var(--text-main);
-            line-height: 1.8;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* En-tête asymétrique */
-        header {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 80px 24px 60px 24px;
-            border-bottom: 2px solid var(--border-color);
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: end;
-            gap: 40px;
-        }
-
-        .brand-block h1 {
-            font-size: 3.2rem;
-            font-weight: normal;
-            letter-spacing: -0.5px;
-            margin-bottom: 12px;
-        }
-
-        .brand-block h1 span {
-            color: var(--gold);
-            font-style: italic;
-        }
-
-        .brand-block p {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 1rem;
-            color: var(--text-muted);
-            max-width: 520px;
-            font-weight: 400; /* Légèrement renforcé pour le confort de lecture */
-        }
-
-        .header-meta {
-            text-align: right;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-        }
-
-        .header-meta strong {
-            display: block;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            margin-top: 4px;
-        }
-
-        /* Contenu principal */
-        main {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        /* Manifeste */
-        .manifesto {
-            padding: 90px 0;
-            max-width: 780px;
-        }
-
-        .manifesto h2 {
-            font-size: 2.1rem;
-            font-weight: normal;
-            line-height: 1.4;
-            margin-bottom: 25px;
-        }
-
-        .manifesto p {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            line-height: 1.7;
-            font-weight: 400;
-        }
-
-        /* Grille des modules avec ombres douces et espacement organique */
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 100px;
-        }
-
-        .module-item {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 40px 32px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-subtle);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .module-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.09);
-        }
-
-        .module-item .num {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        .module-item h3 {
-            font-size: 1.35rem;
-            font-weight: normal;
-            margin-bottom: 15px;
-        }
-
-        .module-item p {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 30px;
-            font-weight: 400;
-        }
-
-        .module-item ul {
-            list-style: none;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.85rem;
-            color: var(--text-main);
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-
-        .module-item ul li {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .module-item ul li::before {
-            content: "—";
-            color: var(--gold);
-        }
-
-        /* Section Workflow */
-        .workflow-section {
-            border-top: 2px solid var(--border-color);
-            padding: 90px 0;
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 60px;
-            align-items: start;
-        }
-
-        .workflow-section h3 {
-            font-size: 1.8rem;
-            font-weight: normal;
-        }
-
-        .workflow-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
-
-        .step-row {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            padding: 24px 30px;
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            box-shadow: var(--shadow-subtle);
-        }
-
-        .step-num {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.8rem;
-            color: var(--gold);
-            font-weight: 600;
-            margin-top: 2px;
-        }
-
-        .step-content h4 {
-            font-size: 1.1rem;
-            font-weight: normal;
-            margin-bottom: 6px;
-        }
-
-        .step-content p {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 400;
-        }
-
-        /* Pied de page */
-        footer {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 60px 24px;
-            border-top: 2px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            font-size: 0.78rem;
-            color: var(--text-muted);
-        }
-
-        footer .tagline {
-            font-style: italic;
-            font-family: Baskerville, "Times New Roman", Georgia, serif;
-            font-size: 1rem;
-            color: var(--text-main);
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            header {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .header-meta {
-                text-align: left;
-            }
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-            .workflow-section {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cahier des charges - CRM Casa-Nova</title>
+<style>
+:root{--bg:#f4f4f4;--doc:#fff;--text:#242424;--muted:#5a5a5a;--border:#d1d1d1;--primary:#1a365d;--accent:#b7791f;--code:#f8f9fa}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+.doc{max-width:1000px;margin:40px auto;background:var(--doc);padding:60px 80px;box-shadow:0 10px 30px rgba(0,0,0,.05);border-top:6px solid var(--primary)}
+.head{border-bottom:2px solid var(--primary);padding-bottom:20px;margin-bottom:40px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.head h1{font-family:Georgia,serif;color:var(--primary);font-size:2.1rem;margin-bottom:8px}
+.meta{text-align:right;font-size:.85rem;color:var(--muted)}
+.meta strong{color:var(--text);display:block}
+h2{font-family:Georgia,serif;color:var(--primary);font-size:1.55rem;margin:44px 0 18px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05rem;color:var(--accent);margin:26px 0 10px;text-transform:uppercase;letter-spacing:.5px}
+p{margin-bottom:14px;font-size:.95rem}
+ul.l{list-style:none;margin-bottom:20px}
+ul.l li{position:relative;padding-left:20px;margin-bottom:10px;font-size:.95rem}
+ul.l li::before{content:"■";color:var(--accent);position:absolute;left:0;font-size:.8rem;top:2px}
+.rule{background:#fff8e1;border-left:4px solid var(--accent);padding:15px 20px;margin:20px 0;font-size:.9rem}
+.rule strong{color:var(--accent)}
+.info{background:#eef3f9;border-left:4px solid var(--primary);padding:15px 20px;margin:20px 0;font-size:.9rem}
+.schema{background:var(--code);border:1px solid var(--border);border-radius:4px;padding:15px;font-family:"Courier New",monospace;font-size:.82rem;margin-bottom:16px;overflow-x:auto}
+.schema b{display:block;color:var(--primary);margin-bottom:8px;border-bottom:1px dashed var(--border);padding-bottom:5px}
+.schema i{color:#388e3c}
+.tw{overflow-x:auto;margin-bottom:20px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{border:1px solid var(--border);padding:9px 12px;text-align:left;vertical-align:top}
+th{background:var(--primary);color:#fff;font-weight:600}
+tr.tot td{font-weight:700;background:#f0f4f9}
+@media(max-width:700px){.doc{padding:30px 20px;margin:0}.meta{text-align:left}}
+@media print{body{background:#fff}.doc{box-shadow:none;margin:0;max-width:none}}
+</style>
 </head>
 <body>
+<div class="doc">
 
-    <!-- En-tête -->
-    <header>
-        <div class="brand-block">
-            <h1>CASA-<span>NOVA</span></h1>
-            <p>Registre interne et outil de gestion sur mesure, pensé pour l'artisanat, la précision et le suivi des ateliers d'art.</p>
-        </div>
-        <div class="header-meta">
-            Édition Atelier
-            <strong>Version de travail — 2026</strong>
-        </div>
-    </header>
+<header class="head">
+<div>
+<h1>Cahier des charges</h1>
+<p>Application de gestion sur mesure "Casa-Nova" (CRM, atelier de lutherie)</p>
+</div>
+<div class="meta">
+Version <strong>1.1</strong>
+Statut <strong>Pour validation</strong>
+Réalisé par <strong>Yohan Saint-Marc</strong>
+</div>
+</header>
 
-    <main>
-        <!-- Manifeste -->
-        <section class="manifesto">
-            <h2>Sortir du chaos des carnets éparpillés et des fichiers numériques multiples.</h2>
-            <p>CASA-NOVA a été conçu pour rassembler l'essentiel au même endroit. Un outil sobre, silencieux et structuré qui s'intègre naturellement dans le rythme quotidien de l'atelier, sans superflus technologiques.</p>
-        </section>
+<section>
+<h2>1. Contexte et objectifs</h2>
+<p>Casa-Nova est un atelier de lutherie parisien qui achète, répare, remet en état et vend des guitares, en propre ou en dépôt-vente. Aujourd'hui, le suivi des instruments, des clients et le registre de police reposent sur des supports papier et des fichiers Excel. Cela prend du temps, multiplie les risques d'erreur et rend les recherches difficiles.</p>
+<p>L'objectif est de fournir un outil unique, simple et soigné, qui permet de :</p>
+<ul class="l">
+<li>retrouver en quelques secondes un client ou un instrument ;</li>
+<li>tenir un livre de police numérique conforme à la réglementation ;</li>
+<li>suivre chaque instrument de son entrée à son départ (stock, dépôt-vente, réparation) ;</li>
+<li>produire devis et factures en PDF sans ressaisie ;</li>
+<li>automatiser les relances et le mail de remerciement ;</li>
+<li>suivre les marges et les résultats de vente.</li>
+</ul>
+<p><strong>Contexte d'usage :</strong> l'outil sera utilisé principalement sur ordinateur (Mac et PC), via un simple navigateur internet, sans rien à installer. Il sera accessible en ligne depuis n'importe quel poste, avec une interface adaptée (responsive) à toutes les tailles d'écran, tablette et téléphone compris, pour une consultation rapide à l'atelier ou en déplacement. Le confort visuel et le design font partie des exigences, pas d'un bonus.</p>
+</section>
 
-        <!-- Les Modules -->
-        <div class="modules-grid">
-            <div class="module-item">
-                <div>
-                    <span class="num">01 / L'ATELIER</span>
-                    <h3>Suivi des instruments</h3>
-                    <p>Enregistrement des pièces, historique des interventions, notes techniques et traçabilité des travaux confiés à l'équipe.</p>
-                </div>
-                <ul>
-                    <li>Fiches descriptives</li>
-                    <li>Historique des passages</li>
-                    <li>Notes et observations</li>
-                </ul>
-            </div>
+<section>
+<h2>2. Périmètre</h2>
+<h3>Inclus dans le projet</h3>
+<ul class="l">
+<li>Gestion des clients, des instruments et de leurs photos.</li>
+<li>Livre de police numérique et son export.</li>
+<li>Gestion des dépôts-vente avec le cycle de 6 mois.</li>
+<li>Devis et factures PDF, suivi des paiements.</li>
+<li>E-mails automatiques (relances, remerciement).</li>
+<li>Tableau de bord, résultats et marges.</li>
+<li>Exports Excel et impressions.</li>
+<li>Formation de prise en main et documentation d'utilisation.</li>
+</ul>
+<h3>Hors périmètre (pourra faire l'objet d'une évolution)</h3>
+<ul class="l">
+<li>Application mobile native (l'outil sera utilisable depuis le navigateur de n'importe quel appareil).</li>
+<li>Assistant interne par intelligence artificielle pour aider à faire évoluer l'outil (évolution envisagée, voir 4.10).</li>
+<li>Reprise de l'historique papier antérieur à la mise en service (une saisie initiale des instruments en cours est prévue, voir 7.3).</li>
+</ul>
+</section>
 
-            <div class="module-item">
-                <div>
-                    <span class="num">02 / LA COMPTABILITÉ</span>
-                    <h3>Devis & Facturation</h3>
-                    <p>Édition propre des pièces administratives, suivi des règlements et centralisation des documents par client.</p>
-                </div>
-                <ul>
-                    <li>Génération de devis</li>
-                    <li>Factures et archivage</li>
-                    <li>Exportation PDF</li>
-                </ul>
-            </div>
+<section>
+<h2>3. Utilisateurs et droits d'accès</h2>
+<p>L'outil est prévu pour un usage interne. Un compte principal (gérant) a accès à toutes les fonctions. Si Casa-Nova souhaite un second compte à accès limité (par exemple un employé qui consulte les fiches mais ne voit pas les marges), c'est possible : à confirmer avant le lancement du développement.</p>
+<ul class="l">
+<li>Connexion par e-mail et mot de passe, avec option de double authentification.</li>
+<li>Déconnexion automatique après une période d'inactivité (durée à fixer).</li>
+</ul>
+</section>
 
-            <div class="module-item">
-                <div>
-                    <span class="num">03 / LA BOUTIQUE</span>
-                    <h3>Ventes & Dépôts</h3>
-                    <p>Gestion transparente des instruments disponibles à la vente, des accessoires et suivi rigoureux des dépôts-ventes.</p>
-                </div>
-                <ul>
-                    <li>Inventaire des stocks</li>
-                    <li>Gestion des dépôts</li>
-                    <li>Suivi des transactions</li>
-                </ul>
-            </div>
-        </div>
+<section>
+<h2>4. Spécifications fonctionnelles</h2>
 
-        <!-- Section Workflow -->
-        <section class="workflow-section">
-            <div>
-                <h3>Déroulement<br>quotidien</h3>
-            </div>
-            <div class="workflow-steps">
-                <div class="step-row">
-                    <span class="step-num">01</span>
-                    <div class="step-content">
-                        <h4>Réception de l'instrument</h4>
-                        <p>Création rapide de la fiche de l'instrument et association au dossier client existant ou nouveau.</p>
-                    </div>
-                </div>
-                <div class="step-row">
-                    <span class="step-num">02</span>
-                    <div class="step-content">
-                        <h4>Intervention & Suivi</h4>
-                        <p>L'artisan consigne les actions menées, le temps passé et les particularités techniques directement sur le registre.</p>
-                    </div>
-                </div>
-                <div class="step-row">
-                    <span class="step-num">03</span>
-                    <div class="step-content">
-                        <h4>Clôture & Facturation</h4>
-                        <p>Édition de la facture correspondante et archivage automatique dans le dossier historique du client.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+<h3>4.1. Recherche multicritère</h3>
+<p>Une barre de recherche globale est présente sur toutes les pages. Les résultats s'affichent au fur et à mesure de la frappe, regroupés par clients et par instruments.</p>
+<ul class="l">
+<li>Recherche par nom, prénom, e-mail ou téléphone du client.</li>
+<li>Recherche par code couleur client (les couleurs et leur signification sont définies avec Casa-Nova, voir section 9).</li>
+<li>Recherche par numéro de série, marque ou modèle.</li>
+<li>Filtres combinables : statut de l'instrument, date d'entrée, client, dépôts proches de l'échéance.</li>
+<li>Depuis un résultat, on accède à la fiche complète en un geste : coordonnées, instruments liés, historique des opérations, factures.</li>
+</ul>
 
-    <!-- Pied de page -->
-    <footer>
-        <div class="tagline">« L'art de l'organisation au service du geste. »</div>
-        <div>CASA-NOVA &copy; 2026 — Usage interne</div>
-    </footer>
+<h3>4.2. Clients</h3>
+<ul class="l">
+<li>Fiche client : identité, coordonnées, adresse, code couleur, notes libres.</li>
+<li>Pièce d'identité : le registre de police impose d'identifier le vendeur ou le déposant. La fiche prévoit donc le type et le numéro du document présenté, ainsi qu'une photo ou un scan si le gérant le souhaite.</li>
+<li>Un client peut déposer un ou plusieurs instruments, en même temps ou à des dates différentes.</li>
+<li>Chaque ajout ou modification de client est répercuté dans le fichier Excel (voir 4.7).</li>
+</ul>
 
+<h3>4.3. Instruments et photographies</h3>
+<ul class="l">
+<li>Fiche instrument : marque, modèle, année, couleur/finition, numéro de série (unique), accessoires fournis (étui, etc.).</li>
+<li>Description détaillée de l'état à la réception, en texte libre mis en forme.</li>
+<li>Photographies en haute définition, en nombre illimité, avec légende et date. Ajout de photos depuis l'ordinateur, ou prise de photo directe depuis une tablette ou un téléphone. Les images sont compressées pour l'affichage tout en conservant l'original.</li>
+<li>Statuts : <em>en stock (vente)</em>, <em>en dépôt-vente</em>, <em>en réparation</em>, <em>remis au propre</em>, <em>vendu</em>, <em>restitué</em>.</li>
+<li>Pour chaque instrument, un journal chronologique de tout ce qui s'est passé (entrée, changement de statut, interventions, facture, sortie).</li>
+<li>Pour chaque instrument, trois parcours possibles : vente, remise au propre seule, ou dépôt-vente.</li>
+</ul>
+
+<h3>4.4. Livre de police numérique</h3>
+<p>Le registre papier est remplacé par un registre numérique qui conserve la même valeur de preuve en cas de contrôle.</p>
+<ul class="l">
+<li>Une ligne est créée automatiquement à chaque entrée (achat ou dépôt) et à chaque sortie (vente ou restitution). Si un client décide de vendre un instrument qu'il avait déposé, la sortie est enregistrée à ce moment-là et le registre est mis à jour sans ressaisie.</li>
+<li>Chaque ligne reprend les informations exigées : date, description de l'objet, numéro de série, identité du vendeur ou déposant et pièce présentée, prix, identité de l'acquéreur à la sortie.</li>
+<li>Une ligne validée ne peut ni être supprimée ni être modifiée. Une erreur se corrige par une ligne rectificative qui référence l'originale, et l'historique complet reste visible.</li>
+<li>Chaque ligne est horodatée et rattachée à l'utilisateur qui l'a créée.</li>
+<li>Export du registre complet en Excel et en PDF, filtrable par période, utilisable immédiatement en cas de contrôle.</li>
+<li>Conservation des données pendant la durée légale (5 ans minimum, à confirmer par le gérant selon ses obligations).</li>
+</ul>
+
+<h3>4.5. Dépôt-vente</h3>
+<div class="rule">
+<strong>Règle métier : le cycle de 6 mois.</strong><br>
+Un instrument placé en dépôt-vente déclenche un compteur de 6 mois à partir de la date de dépôt. Si le client reprend sa guitare avant la vente ou à l'issue des 6 mois, la facture ne comprend que les soins de remise au propre (hors commission de vente, qui n'est pas due).
+</div>
+<ul class="l">
+<li>Une tâche automatique vérifie chaque nuit l'âge de chaque dépôt.</li>
+<li>Des rappels sont envoyés au client à l'approche de l'échéance (par défaut à 30 jours puis 7 jours, réglable). Le gérant est lui aussi prévenu dans l'outil.</li>
+<li>À l'échéance, le gérant choisit : restitution, prolongation, ou passage en vente ferme.</li>
+<li>Le montant des soins de remise au propre est saisi ou sélectionné dans une liste de prestations, puis la facture est générée en un clic.</li>
+<li>La commission de Casa-Nova et le prix net reversé au déposant sont calculés automatiquement lors d'une vente.</li>
+</ul>
+
+<h3>4.6. Devis, facturation et paiements</h3>
+<ul class="l">
+<li>Devis et factures générés en PDF avec logo, coordonnées, numérotation continue et mentions légales obligatoires. Le modèle exact est validé avec Casa-Nova.</li>
+<li>Catalogue de prestations (remise au propre, réglage, changement de cordes, etc.) avec tarifs modifiables.</li>
+<li>Transformation d'un devis accepté en facture en un clic.</li>
+<li>Statuts : brouillon, envoyée, payée, en retard. Mode de règlement enregistré.</li>
+<li>Envoi de la facture par e-mail depuis l'outil, et impression directe.</li>
+<li>Passage d'une facture en "payée" : envoi d'un e-mail de remerciement personnalisable.</li>
+<li>Une facture émise n'est pas modifiable ; on émet un avoir si nécessaire.</li>
+</ul>
+
+<h3>4.7. Synchronisation Excel et impressions</h3>
+<p>Casa-Nova souhaite garder un fichier Excel à jour et pouvoir l'imprimer. Le fonctionnement retenu :</p>
+<ul class="l">
+<li>L'outil reste la source de référence. À chaque création ou modification d'un client ou d'un instrument, le fichier Excel est régénéré automatiquement et se télécharge d'un clic (liste des clients, inventaire, livre de police, résultats).</li>
+<li>Les feuilles sont mises en page pour l'impression (en-têtes, largeur de colonnes, pagination).</li>
+<li>Le fichier Excel est une copie : le modifier à la main ne modifie pas l'application.</li>
+</ul>
+
+<h3>4.8. Tableau de bord et résultats</h3>
+<ul class="l">
+<li>Vue d'accueil : dépôts arrivant à échéance, instruments en réparation, factures impayées, dernières entrées.</li>
+<li>Résultats de vente par période (mois, trimestre, année) : chiffre d'affaires, prix d'achat, coûts de remise en état, marge nette.</li>
+<li>Marge par instrument et par type d'opération (vente directe, dépôt-vente, prestation).</li>
+<li>Export des résultats en Excel.</li>
+</ul>
+
+<h3>4.9. E-mails automatiques</h3>
+<ul class="l">
+<li>Rappel d'échéance de dépôt-vente.</li>
+<li>Relance de facture impayée (délai réglable).</li>
+<li>Remerciement après paiement.</li>
+<li>Modèles de messages modifiables par le gérant, à l'image de la marque. Envoi depuis une adresse au nom de Casa-Nova.</li>
+<li>Historique des e-mails envoyés visible sur la fiche client.</li>
+</ul>
+
+<h3>4.10. Autonomie du gérant</h3>
+<p>Casa-Nova souhaite pouvoir faire évoluer l'outil au quotidien sans appeler le développeur pour chaque ajustement. Un espace "Paramètres" permet donc de gérer soi-même :</p>
+<ul class="l">
+<li>les listes : marques, types de prestations, codes couleur clients, motifs de visite ;</li>
+<li>des champs personnalisés ajoutables sur les fiches client et instrument (texte, nombre, date, case à cocher, liste) ;</li>
+<li>les tarifs de prestations, la commission de dépôt-vente et les délais de relance ;</li>
+<li>les textes des e-mails automatiques, le logo et les mentions des PDF ;</li>
+<li>les comptes utilisateurs et leurs droits.</li>
+</ul>
+<p>Les champs obligatoires du livre de police ne sont pas modifiables, pour rester conforme à la réglementation. Les changements de fond (nouveau module, nouvelle règle de calcul) passent par un devis.</p>
+<div class="info">
+<strong>Évolution envisagée : assistant interne.</strong><br>
+Une fois l'outil en service et stabilisé, un assistant par intelligence artificielle pourrait aider le gérant à demander une modification en langage courant (par exemple "ajouter un champ accessoires sur les guitares"). Il ne fait pas partie de cette version. Il sera étudié après quelques mois d'usage, avec des garde-fous : validation humaine avant toute modification et aucun accès au livre de police.
+</div>
+</section>
+
+<section>
+<h2>5. Exigences non fonctionnelles</h2>
+<h3>Design et ergonomie</h3>
+<ul class="l">
+<li>Identité visuelle sobre et haut de gamme, cohérente avec l'univers de l'atelier : typographie soignée, couleurs et logo fournis par Casa-Nova.</li>
+<li>Maquettes des écrans principaux soumises à validation avant le développement.</li>
+<li>Conçu d'abord pour l'ordinateur (Mac et PC, navigateurs récents : Chrome, Safari, Edge, Firefox), avec une interface responsive qui s'adapte aussi à la tablette (tactile, portrait et paysage) et au téléphone.</li>
+<li>Saisie guidée, peu de clics, messages d'erreur clairs.</li>
+</ul>
+<h3>Sécurité et données</h3>
+<ul class="l">
+<li>Connexion chiffrée (HTTPS) et mots de passe protégés.</li>
+<li>Données personnelles des clients traitées conformément au RGPD ; mentions et information des clients à prévoir par Casa-Nova.</li>
+<li>Sauvegardes automatiques quotidiennes, avec possibilité de restauration.</li>
+<li>Données et photographies hébergées en Union européenne.</li>
+</ul>
+<h3>Performance et fiabilité</h3>
+<ul class="l">
+<li>Résultats de recherche en moins d'une seconde pour plusieurs milliers de fiches.</li>
+<li>Affichage rapide des photos grâce à des versions allégées.</li>
+<li>Disponibilité visée : 99 % hors maintenance annoncée.</li>
+</ul>
+</section>
+
+<section>
+<h2>6. Architecture technique</h2>
+<ul class="l">
+<li><strong>Interface :</strong> application web monopage (React), sans rechargement de page, accessible depuis un navigateur à une adresse web dédiée.</li>
+<li><strong>Base de données :</strong> PostgreSQL, avec règles de sécurité au niveau des lignes pour garantir l'intégrité du livre de police.</li>
+<li><strong>Stockage des photos :</strong> stockage objet compatible S3, séparé de la base de données.</li>
+<li><strong>Tâches planifiées :</strong> contrôle quotidien des dépôts, envoi des e-mails, génération des exports.</li>
+<li><strong>Génération PDF et Excel :</strong> côté serveur.</li>
+</ul>
+
+<h3>Modèle de données (extraits)</h3>
+<div class="schema"><b>clients</b>
+id_client : UUID (clé primaire)<br>
+nom_complet : VARCHAR(100)<br>
+email, telephone, adresse<br>
+code_couleur : VARCHAR(20) <i>-- ex. rouge, bleu, VIP</i><br>
+piece_identite_type, piece_identite_numero<br>
+created_at, updated_at</div>
+<div class="schema"><b>instruments</b>
+id_instrument : UUID (clé primaire)<br>
+num_serie : VARCHAR(100) UNIQUE <i>-- indexé</i><br>
+marque, modele, annee, description_etat<br>
+proprietaire_id : UUID (clé étrangère, clients)<br>
+statut : ENUM('stock','depot','reparation','remis_au_propre','vendu','restitue')<br>
+date_depot : TIMESTAMP <i>-- départ du compteur de 6 mois</i><br>
+frais_remise_propre : DECIMAL(10,2)</div>
+<div class="schema"><b>photos</b>
+id_photo, instrument_id, url_originale, url_miniature, legende, created_at</div>
+<div class="schema"><b>registre_police</b> <i>-- insertion seule, aucune modification ni suppression</i><br>
+id_ligne, instrument_id, client_id, type_mouvement ('entree','sortie'), date_mouvement, prix, utilisateur_id, corrige_ligne_id (rectification)</div>
+<div class="schema"><b>factures</b>
+id_facture, numero, client_id, instrument_id, type ('devis','facture','avoir'), statut, total_ht, tva, total_ttc, date_emission, date_paiement</div>
+<div class="schema"><b>emails_envoyes</b>
+id, client_id, type, date_envoi, statut</div>
+</section>
+
+<section>
+<h2>7. Organisation, planning et livrables</h2>
+<h3>7.1. Phases</h3>
+<div class="tw"><table>
+<tr><th>Phase</th><th>Contenu</th><th>Durée estimée</th></tr>
+<tr><td>1. Cadrage et design</td><td>Validation du cahier des charges, maquettes, charte visuelle</td><td>25 h</td></tr>
+<tr><td>2. Socle</td><td>Connexion, clients, instruments, photos, recherche</td><td>60 h</td></tr>
+<tr><td>3. Registre et dépôt-vente</td><td>Livre de police, cycle de 6 mois, rappels</td><td>55 h</td></tr>
+<tr><td>4. Facturation et e-mails</td><td>Devis, factures PDF, paiements, e-mails automatiques</td><td>60 h</td></tr>
+<tr><td>5. Résultats et exports</td><td>Tableau de bord, marges, exports Excel</td><td>35 h</td></tr>
+<tr><td>6. Espace d'autonomie</td><td>Paramètres modifiables sans développeur (voir 4.10)</td><td>30 h</td></tr>
+<tr><td>7. Tests et mise en service</td><td>Recette, corrections, formation, déploiement</td><td>35 h</td></tr>
+<tr class="tot"><td colspan="2">Total estimé</td><td>300 h</td></tr>
+</table></div>
+<p>À raison de 10 à 15 heures par semaine, la durée totale est de 5 à 6 mois. Une première version utilisable (phases 1 à 3) est livrée à mi-parcours pour que Casa-Nova puisse la tester en conditions réelles.</p>
+
+<h3>7.2. Validation</h3>
+<p>Chaque phase se termine par une démonstration et une validation écrite. Les retours sont intégrés dans la phase suivante. Une demande qui sort du cahier des charges est chiffrée à part avant d'être réalisée.</p>
+
+<h3>7.3. Livrables</h3>
+<ul class="l">
+<li>Application en ligne, accessible depuis un navigateur sur ordinateur, tablette et téléphone.</li>
+<li>Saisie initiale des instruments et clients en cours (à partir de documents fournis par Casa-Nova, dans la limite convenue).</li>
+<li>Guide d'utilisation et séance de formation.</li>
+<li>Code source et documentation technique, remis à la fin du projet.</li>
+</ul>
+</section>
+
+<section>
+<h2>8. Tarification</h2>
+<ul class="l">
+<li><strong>Taux horaire :</strong> 40 € HT / heure.</li>
+<li><strong>Estimation :</strong> 300 heures, soit environ 12 000 € HT, à ± 15 % selon la précision des demandes en cours de projet.</li>
+<li><strong>Facturation :</strong> selon l'avancement des phases, avec un relevé des heures réalisées. Chaque phase a un plafond d'heures annoncé, qui ne peut être dépassé qu'avec accord préalable.</li>
+</ul>
+
+<h3>Repères de marché</h3>
+<p>Pour situer ce budget, voici des ordres de grandeur publiés en 2026. Ils sont indicatifs et varient selon les sources.</p>
+<div class="tw"><table>
+<tr><th>Repère</th><th>Ordre de grandeur</th><th>Équivalent horaire (7 h/jour)</th></tr>
+<tr><td>Freelance full-stack junior (0-2 ans), TJM médian en France</td><td>350 €/jour (fourchette 300 à 400 €)</td><td>environ 50 €/h</td></tr>
+<tr><td>Même profil en Île-de-France</td><td>environ 345 à 460 €/jour</td><td>environ 49 à 66 €/h</td></tr>
+<tr><td>Freelance, tous profils confondus (moyenne France / Île-de-France)</td><td>environ 520 / 620 €/jour</td><td>environ 74 / 89 €/h</td></tr>
+<tr class="tot"><td>Tarif proposé pour ce projet</td><td>280 €/jour</td><td>40 €/h</td></tr>
+</table></div>
+<div class="tw"><table>
+<tr><th>Projet CRM</th><th>Budget typique en agence</th></tr>
+<tr><td>Mise en place d'un CRM existant (paramétrage, formation)</td><td>5 000 à 10 000 €</td></tr>
+<tr><td>Intégration sérieuse (connexion d'outils, automatisations)</td><td>15 000 à 25 000 €</td></tr>
+<tr><td>CRM entièrement sur mesure</td><td>à partir de 40 000 €</td></tr>
+<tr><td>Médiane des projets CRM confiés à une agence</td><td>environ 19 000 €</td></tr>
+<tr class="tot"><td>Budget proposé pour Casa-Nova</td><td>environ 12 000 € HT</td></tr>
+</table></div>
+<p>Le tarif proposé est volontairement inférieur au tarif médian d'un développeur junior. Il s'explique par une durée d'engagement plus longue (300 heures sur plusieurs mois), un cahier des charges validé avant de commencer et un client qui sera un premier projet de cette ampleur.</p>
+<p><em>Sources : simulateur TJM travail-industrie.com (profils junior, 2026), La Fabrique du Net (TJM des développeurs freelances 2026 et tarifs des projets CRM en agence).</em></p>
+
+<h3>Ce que cela représente par semaine et par mois</h3>
+<p>Le tarif au jour des tableaux ci-dessus correspond à une journée complète de 7 heures, pour comparer avec le marché. Il ne veut pas dire que des journées complètes sont facturées : le projet représente 10 à 15 heures par semaine, soit environ 55 heures par mois en moyenne.</p>
+<div class="tw"><table>
+<tr><th>Période</th><th>Au tarif proposé (40 €/h)</th><th>Au tarif médian d'un junior (environ 50 €/h)</th><th>Moyenne freelance tous profils, Île-de-France (environ 89 €/h)</th></tr>
+<tr><td>1 semaine (12,5 h en moyenne)</td><td>500 €</td><td>625 €</td><td>environ 1 100 €</td></tr>
+<tr><td>1 mois (environ 55 h)</td><td>environ 2 200 €</td><td>environ 2 700 €</td><td>environ 4 800 €</td></tr>
+<tr class="tot"><td>Projet complet (300 h)</td><td>12 000 €</td><td>15 000 €</td><td>environ 26 600 €</td></tr>
+</table></div>
+<p>Selon le rythme de la semaine, le coût varie de 400 € (10 h) à 600 € (15 h). Le budget est donc étalé : il représente environ 2 200 € HT par mois, facturés selon les heures réellement réalisées.</p>
+
+<h3>Frais d'exploitation (hors développement)</h3>
+<p>Le budget ci-dessus couvre la création de l'outil. Une fois en ligne, des frais récurrents sont à prévoir. Ils sont facturés au coût réel, sans marge, et détaillés avant la mise en service :</p>
+<div class="tw"><table>
+<tr><th>Poste</th><th>Estimation mensuelle</th></tr>
+<tr><td>Hébergement de l'application et de la base de données</td><td>25 à 45 €</td></tr>
+<tr><td>Stockage des photographies et sauvegardes</td><td>5 à 15 €</td></tr>
+<tr><td>Envoi des e-mails automatiques</td><td>0 à 15 €</td></tr>
+<tr><td>Nom de domaine</td><td>environ 1 à 2 €</td></tr>
+<tr class="tot"><td>Total indicatif</td><td>environ 35 à 75 € / mois</td></tr>
+</table></div>
+<p>Ces montants dépendent des offres des hébergeurs au moment du déploiement et du volume de photos. Le compte d'hébergement est ouvert au nom de Casa-Nova, qui reste propriétaire de ses données.</p>
+</section>
+
+<section>
+<h2>9. Points à valider avec Casa-Nova</h2>
+<ul class="l">
+<li>Liste et signification des codes couleur clients.</li>
+<li>Modèle exact du livre de police actuel et champs obligatoires (à vérifier avec la préfecture ou l'expert-comptable).</li>
+<li>Régime de TVA applicable (TVA sur marge pour les biens d'occasion ou régime normal).</li>
+<li>Taux de commission en dépôt-vente et grille de tarifs de remise au propre.</li>
+<li>Besoin d'un second compte utilisateur.</li>
+<li>Champs et listes que le gérant souhaite pouvoir modifier lui-même (4.10).</li>
+<li>Choix du forfait de maintenance après la livraison.</li>
+<li>Logo, couleurs, nom de domaine et adresse d'envoi des e-mails.</li>
+<li>Volume de données à reprendre au démarrage.</li>
+</ul>
+</section>
+
+</div>
 </body>
 </html>
